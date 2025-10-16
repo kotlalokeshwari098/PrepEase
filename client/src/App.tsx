@@ -13,12 +13,15 @@ import SubjectQuestions from "./pages/SubjectQuestions";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element= {<AppLayout />}>
-       <Route index element={<Home />}/>
-       <Route path='/signup' element={<Signup />}/>
-       <Route path='/login' element={<Login />}/>
-       <Route path='/questions' element={<ExploreQuestions />}/>
-       <Route path='/questions/:subject' element={<SubjectQuestions />}/>
+      <Route>
+         <Route path='/signup' element={<Signup />}/>
+         <Route path='/login' element={<Login />}/>
+
+        <Route path="/" element= {<AppLayout />}>
+          <Route index element={<Home />}/>
+          <Route path='/questions' element={<ExploreQuestions />}/>
+          <Route path='/questions/:subject' element={<SubjectQuestions />}/>
+      </Route>
     </Route>
   )
 );
