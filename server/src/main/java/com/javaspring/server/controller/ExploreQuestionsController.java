@@ -12,6 +12,6 @@ public class ExploreQuestionsController {
 
     @GetMapping("/questions")
     public String getQuestion(){
-        return "hello wuestions";
+        return "hello questions";
     }
 }
