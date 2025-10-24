@@ -27,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterchain) throws ServletException, IOException {
-        System.out.println(response.getStatus());
+        System.out.println(response+"dofilter inside");
         String token=null;
         String username=null;
         String authHeader=request.getHeader("Authorization");
@@ -39,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         //validate
         //set to spring context
-        if(username!=null && token !=null && SecurityContextHolder.getContext().getAuthentication()!=null){
+        if(username!=null && token !=null && SecurityContextHolder.getContext().getAuthentication()==null){
             //fetch user by username
             UserDetails userdetails=myUserDetailsService.loadUserByUsername(username);
 
