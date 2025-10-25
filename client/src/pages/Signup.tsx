@@ -2,6 +2,7 @@ import {useForm, type SubmitHandler} from "react-hook-form";
 import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
+import  axiosInstance  from '../api/axios.ts'
 
 //ZOD schema validations for the form fields
 const userFormSchema=z.object({
@@ -20,6 +21,7 @@ const Signup = () => {
     register,
     formState:{errors,isSubmitting},
     setError,
+    reset
   }
     =useForm<UserForm>({
       defaultValues:{
@@ -30,7 +32,14 @@ const Signup = () => {
 
   const onSubmit:SubmitHandler<UserForm>=async(data)=>{
     try {
-      console.log(data,"form data");
+      const result=await axiosInstance.post("/register",data);
+      if(result.status==201){
+        console.log("resgistered successfully")
+        setTimeout(()=>{
+          alert("Registered successfullyy!!");
+          reset();
+        },1000)
+      }
     } catch (error) {
       console.log(error);
       setError("root",{

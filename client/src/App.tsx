@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ExploreQuestions from "./pages/ExploreQuestions";
 import SubjectQuestions from "./pages/SubjectQuestions";
+import Dashboard from "./pages/Dashboard";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const routes = createBrowserRouter(
           <Route index element={<Home />}/>
           <Route path='/questions' element={<ExploreQuestions />}/>
           <Route path='/questions/:subject' element={<SubjectQuestions />}/>
+          <Route path='/dashboard' element={<Dashboard />}/>
       </Route>
     </Route>
   )
