@@ -2,6 +2,7 @@ import {useForm, type SubmitHandler} from "react-hook-form";
 import  {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../api/axios";
+import { useState } from 'react';
 
 
 const inputSchema=z.object({
@@ -21,7 +22,7 @@ interface UploadProps {
 }
 
 const Upload = ({ onClose,type }: UploadProps) => {
-
+  const [selectedFileName, setSelectedFileName] = useState<string>('');
     const {
         handleSubmit,
         register,
@@ -50,6 +51,16 @@ const Upload = ({ onClose,type }: UploadProps) => {
       })
     }
   }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.files)
+    const file = event.target.files?.[0];
+    console.log(file)
+    if (file) {
+      setSelectedFileName(file.name);
+    }
+  };
+
   return (
     <div className="fixed inset-0 h-full w-full z-50">
       <div className="relative top-10 mx-auto max-w-2xl">
@@ -133,34 +144,56 @@ const Upload = ({ onClose,type }: UploadProps) => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Upload File
               </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-400 transition-colors">
                 <div className="space-y-1 text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-gray-400"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                      <span>Upload a file</span>
-                      <input
-                        type="file"
-                        {...register("file")}
-                        className="sr-only"
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs text-gray-500">PDF up to 5MB</p>
+                  {!selectedFileName ? (
+                    <>
+                      <svg
+                        className="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
+                          <span>Upload a file</span>
+                          <input
+                            type="file"
+                            {...register("file")}
+                            onChange={handleFileChange}
+                            className="sr-only"
+                            accept=".pdf"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">PDF up to 5MB</p>
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center space-x-3">
+                      <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      <div className="text-left">
+                        <p className="text-sm text-gray-700">{selectedFileName}</p>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedFileName('')}
+                          className="text-xs text-red-500 hover:text-red-700"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               {errors.file && (
