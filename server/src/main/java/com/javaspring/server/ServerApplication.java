@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,15 @@ public class ServerApplication {
 		config.put("api_secret", dotenv.get("CLOUDINARY_API_SECRET"));
 		cloudinary = new Cloudinary(config);
 		return cloudinary;
+	}
+
+	@Bean
+	public WebMvcConfigurer configure() {
+		return new WebMvcConfigurer() {
+			public void addCorsMappings(CorsRegistry reg) {
+				reg.addMapping("/**").allowedOrigins("*");
+			}
+		};
 	}
 
 }

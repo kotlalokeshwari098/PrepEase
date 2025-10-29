@@ -1,8 +1,8 @@
 package com.javaspring.server.model;
 
 public class AuthRequest {
-  private String username;
-  private String  password;
+    private String username;
+    private String password;
 
     public String getUsername() {
         return username;

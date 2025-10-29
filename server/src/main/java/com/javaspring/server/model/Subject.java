@@ -8,7 +8,8 @@ import java.util.List;
 public class Subject {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String subject_name;
     private Long subject_code;
 
@@ -19,17 +20,17 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(String subject_name, int id, Long subject_code) {
+    public Subject(String subject_name, Long id, Long subject_code) {
         this.subject_name = subject_name;
         this.id = id;
         this.subject_code = subject_code;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,6 +1,7 @@
 package com.javaspring.server.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,19 +15,21 @@ public class User {
     private Long id;
     private String email;
     private String username;
+
+    @JsonIgnore
     private String password;
-    private String role;
+//    private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    public String getRole(){
-        return role;
-    }
+//    public String getRole(){
+//        return role;
+//    }
 
-    public void setRole(String role){
-        this.role = role;
-    }
+//    public void setRole(String role){
+//        this.role = role;
+//    }
 
     public String getEmail() {
         return email;
@@ -66,7 +69,6 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'';
+                ", password='" + password + '\'';
     }
 }

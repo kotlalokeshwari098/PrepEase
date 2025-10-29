@@ -29,7 +29,7 @@ public class JWTUtil {
     }
 
     public String generateToken(String username){
-        System.out.println(username+"username");
+//        System.out.println(username+"username");
         // Generate JWT token
        return Jwts
                .builder()
@@ -45,11 +45,15 @@ public class JWTUtil {
         return extractClaims(Token).getSubject();
    }
 
-    private Claims extractClaims(String Token) {
+    private Claims extractClaims(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        token = token.trim();
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(Token)
+                .parseClaimsJws(token)
                 .getBody();
 
     }

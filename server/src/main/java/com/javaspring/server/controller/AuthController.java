@@ -23,20 +23,23 @@ import java.util.Optional;
 @RestController
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    //use constructor injection - no need of mentioning the @Autowired as it will be injected auto
+    public AuthController(UserRepository userRepository,
+                          AuthenticationManager authenticationManager,JWTUtil jwtUtil,
+                          PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<? extends Object> registerUser(@RequestBody User data){

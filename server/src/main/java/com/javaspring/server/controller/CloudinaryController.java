@@ -28,7 +28,7 @@ public class CloudinaryController {
     public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("title") String title) throws Exception {
         // Convert MultipartFile to temporary File
         String url=cloudinaryService.uploadFile(file);
-        System.out.println(url+"urll");
+        System.out.println(url+"urll ");
 
         return "uploaded successfullyyyy" ;
     }
