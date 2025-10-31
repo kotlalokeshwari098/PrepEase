@@ -3,6 +3,10 @@ import {z} from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import  axiosInstance  from '../api/axios.ts'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux";
+import {showToast} from '../features/ui/uiSlice.ts'
+import { userProfile } from '../features/auth/authSlice.ts'
+
 
 const userFieldsSchema=z.object({
   username:z.string(),
@@ -17,19 +21,36 @@ const Login = () => {
     resolver:zodResolver(userFieldsSchema)
   })
   const navigate=useNavigate();
+  const dispatch=useDispatch();
 
 
   const onSubmit:SubmitHandler<UserFields>=async(data)=>{
      try {
         const response=await axiosInstance.post("/authenticate",data);
-        // console.log(response)
+        console.log(response)
         if(response.status===200){
-          alert("Login successfull!!");
+          const token=response.data;
+
+          localStorage.setItem('token',response?.data)
+
+          dispatch(showToast({ type: 'success', message: 'Login successfully!' }));
+
+          const response1=await axiosInstance.get("/user/profile",{
+           headers:{
+            Authorization:`Bearer ${token}`
+           }
+          });
+
+          dispatch(userProfile(response1.data))
+          
+          localStorage.setItem("userInfo", JSON.stringify(response1.data));
+         
           setTimeout(()=>{
             reset();
+            navigate("/dashboard");
           },1000)
-          localStorage.setItem('token',response?.data)
-          navigate("/dashboard");
+          
+          
         }
      } catch (error) {
         console.log(error);
