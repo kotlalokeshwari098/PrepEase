@@ -40,14 +40,4 @@ public class ServerApplication {
 		cloudinary = new Cloudinary(config);
 		return cloudinary;
 	}
-
-	@Bean
-	public WebMvcConfigurer configure() {
-		return new WebMvcConfigurer() {
-			public void addCorsMappings(CorsRegistry reg) {
-				reg.addMapping("/**").allowedOrigins("*");
-			}
-		};
-	}
-
 }
