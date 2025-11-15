@@ -10,7 +10,7 @@ import { userProfile } from '../features/auth/authSlice.ts'
 
 const userFieldsSchema=z.object({
   username:z.string(),
-  password:z.string().min(8)
+  password:z.string()
 })
 
 type UserFields=z.infer<typeof userFieldsSchema>

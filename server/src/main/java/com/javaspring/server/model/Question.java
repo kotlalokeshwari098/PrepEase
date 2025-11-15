@@ -9,7 +9,7 @@ import java.util.Date;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String url;
     private Date created_at;
@@ -35,6 +35,14 @@ public class Question {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.year = year;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public int getId() {

@@ -10,8 +10,10 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String subject_name;
-    private Long subject_code;
+
+    @Column(name = "subjectname")
+    private String subjectName;
+    private Long subjectCode;
 
     @OneToMany(mappedBy = "subject" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> questions;
@@ -21,9 +23,9 @@ public class Subject {
     }
 
     public Subject(String subject_name, Long id, Long subject_code) {
-        this.subject_name = subject_name;
+        this.subjectName = subject_name;
         this.id = id;
-        this.subject_code = subject_code;
+        this.subjectCode = subject_code;
     }
 
     public Long getId() {
@@ -35,18 +37,18 @@ public class Subject {
     }
 
     public String getSubject_name() {
-        return subject_name;
+        return subjectName;
     }
 
     public void setSubject_name(String subject_name) {
-        this.subject_name = subject_name;
+        this.subjectName = subject_name;
     }
 
     public Long getSubject_code() {
-        return subject_code;
+        return subjectCode;
     }
 
     public void setSubject_code(Long subject_code) {
-        this.subject_code = subject_code;
+        this.subjectCode = subject_code;
     }
 }
