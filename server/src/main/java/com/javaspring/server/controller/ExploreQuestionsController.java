@@ -3,11 +3,15 @@ package com.javaspring.server.controller;
 
 import com.javaspring.server.model.Question;
 import com.javaspring.server.model.Subject;
+import com.javaspring.server.model.User;
 import com.javaspring.server.repository.SubjectRepository;
+import com.javaspring.server.security.UserPrincipal;
 import com.javaspring.server.service.CloudinaryService;
 import com.javaspring.server.service.ExploreQuestionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +48,8 @@ public class ExploreQuestionsController {
         System.out.println("uploadQuestionPaper"+file.getOriginalFilename());
         try {
             // Save the file or process it
-            System.out.println("File name: " + file.getOriginalFilename());
-            System.out.println("Subject: " + subjectName);
+//            System.out.println("File name: " + file.getOriginalFilename());
+//            System.out.println("Subject: " + subjectName);
              String fileUrl=cloudinaryService.uploadFile(file);
              subjectName=subjectName.trim();
              Subject subject=subjectRepository.findBySubjectName(subjectName);
@@ -53,14 +57,20 @@ public class ExploreQuestionsController {
              if(subject==null){
                  return ResponseEntity.badRequest().body("Subject not found");
              }
-
              Question question=new Question();
              question.setUrl(fileUrl);
-//             question.setYear(year);
-            question.setSubject(subject);
+             question.setYear(year);
+             question.setSubject(subject);
+             question.setAffliated(university);
+             question.setBranch(branch);
+             question.setCreated_at(new Date());
+             question.setUpdated_at(new Date());
 
-            question.setCreated_at(new Date());
-            question.setUpdated_at(new Date());
+             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+             UserPrincipal principal=(UserPrincipal)auth.getPrincipal();
+             User userEntity=principal.getUser();
+             question.setUser(userEntity);
              exploreQuestionsService.uploadQuestionPaper(question);
             return ResponseEntity.status(HttpStatus.CREATED).body("Uploaded successfully!");
         } catch (Exception e) {

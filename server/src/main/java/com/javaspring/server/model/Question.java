@@ -14,8 +14,9 @@ public class Question {
     private String url;
     private Date created_at;
     private Date updated_at;
-    private Date year;
+    private Integer year;
     private String affliated;
+    private String branch;
 
     @ManyToOne
     @JoinColumn(name="uploaded_by") // FK column in Question table
@@ -29,12 +30,42 @@ public class Question {
     public Question() {
     }
 
-    public Question(int id, int subject_code, String url, String uploaded_by, Date created_at, Date updated_at, Date year) {
+    public Question(int id, int subject_code, String url, String uploaded_by, Date created_at, Date updated_at, int year,String affliated,String branch) {
         this.id = id;
         this.url = url;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.year = year;
+        this.affliated = affliated;
+        this.branch=branch;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getAffliated() {
+        return affliated;
+    }
+
+    public void setAffliated(String affliated) {
+        this.affliated = affliated;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Subject getSubject() {
@@ -77,11 +108,11 @@ public class Question {
         this.updated_at = updated_at;
     }
 
-    public Date getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Date year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }

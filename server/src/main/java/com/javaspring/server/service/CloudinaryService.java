@@ -33,12 +33,12 @@ public class CloudinaryService {
 
     public String uploadFile(MultipartFile gif) throws IOException {
         try {
-            System.out.println(gif + "multi-partfile");
+//            System.out.println(gif + "multi-partfile");
             File uploadedFile = convertMultiPartToFile(gif);
             Map uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
 
             boolean isDeleted = uploadedFile.delete();
-            System.out.println(uploadResult+"uploadedresult");
+//            System.out.println(uploadResult+"uploadedresult");
 
             if (isDeleted) {
                 System.out.println("File successfully deleted");
