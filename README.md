@@ -7,7 +7,7 @@ PrepEase is an *AI-powered exam preparation platform* that helps students effici
 ## 💡 *Solution Overview*
 
 Many students struggle to find topic-wise questions and reliable previous-year papers before university exams, spending hours browsing random sources.  
-*PrepEase* addresses this by leveraging *Natural Language Processing (NLP)* and *AI models* to extract, organize, and answer questions directly from uploaded documents.
+*PrepEase* addresses this by leveraging  *AI models* to extract, organize, and answer questions directly from uploaded documents.
 
 With PrepEase, students can:
 - 📄 Upload handwritten or digital notes and papers.
@@ -20,9 +20,8 @@ With PrepEase, students can:
 ## 🚀 *Features*
 
 ### 1. 🗂️ Document Upload & Text Extraction
-- Upload notes or question papers in *PDF, PNG, or JPG* formats.
-- Uses *Tesseract OCR* for accurate text extraction.
-- Cleans and preprocesses text before analysis.
+- Upload notes or question papers in *PDF formats.
+- Uses PyPDFLoader for accurate text extraction.
 
 ### 2. 🤖 Question Detection & Topic Classification
 - *BERT* identifies questions from extracted text.
@@ -47,12 +46,11 @@ With PrepEase, students can:
 
 | Layer        | Technology                                        |
 | ------------- | ------------------------------------------------ |
-| 🌐 Frontend   | React.js, TailwindCSS                            |
+| 🌐 Frontend   | React.js, TailwindCSS, Typescript                |
 | 🖥 Backend    | Java, Springboot                                  |
-| 🧠 AI Models  | Tesseract OCR, BERT, Sentence-BERT, RAG          |
-| 🗄 Database   | PostgreSQL & MongoDB                              |
+| 🧠 AI Models  |  BERT, Sentence-BERT, RAG                         |
+| 🗄 Database   | PostgreSQL & MongoDB, Chromadb                     |
 | 🔐 Auth       | JWT Authentication                               |
-| ☁️ Hosting    | Frontend: Vercel  <br> Backend: Render           |
 
 ---
 
