@@ -2,7 +2,7 @@
 
 PrepEase is an *AI-powered exam preparation platform* that helps students efficiently organize and understand their university study materials. It automatically extracts questions from uploaded notes or papers, classifies them by topic, and generates accurate answers -- all in one place.
 
----
+
 
 ## 💡 *Solution Overview*
 
@@ -15,7 +15,7 @@ With PrepEase, students can:
 - 🧠 Receive AI-generated, context-aware answers.
 - 📚 Access a library of previous-year papers and notes for self-study.
 
----
+
 
 ## 🚀 *Features*
 
@@ -40,7 +40,7 @@ With PrepEase, students can:
 - View uploaded files, extracted topics, and study recommendations.
 - Track revision progress and maintain organized notes.
 
----
+
 
 ## 🛠️ *Tech Stack*
 
