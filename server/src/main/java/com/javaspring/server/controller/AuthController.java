@@ -5,6 +5,7 @@ import com.javaspring.server.model.AuthRequest;
 import com.javaspring.server.model.User;
 import com.javaspring.server.repository.UserRepository;
 import com.javaspring.server.util.JWTUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -21,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/auth")
+@AllArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -31,15 +35,6 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
-    //use constructor injection - no need of mentioning the @Autowired as it will be injected auto
-    public AuthController(UserRepository userRepository,
-                          AuthenticationManager authenticationManager,JWTUtil jwtUtil,
-                          PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<? extends Object> registerUser(@RequestBody User data){
@@ -72,7 +67,7 @@ public class AuthController {
     public String generateToken(@RequestBody
                                 AuthRequest authRequest){
         try {
-//            System.out.println(authRequest);
+            System.out.println(authRequest);
             //here user is authenticated-username and password are checked
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())

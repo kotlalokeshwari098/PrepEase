@@ -1,0 +1,12 @@
+@token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFzaGkwOSIsImlhdCI6MTc2MTA0OTg0NCwiZXhwIjoxNzYxMDUzNDQ0fQ.tWBSAJ8J_pRou6qu54TG05TvxBFI2nUhfmCEFYDvr88
+POST http://localhost:8080/authenticate
+Content-Type:application/json
+
+{
+  "username": "shashi09",
+  "password": "shashi09"
+}
+
+###
+GET http://localhost:8080/api/questions
+Authorization: Bearer {{token}}
