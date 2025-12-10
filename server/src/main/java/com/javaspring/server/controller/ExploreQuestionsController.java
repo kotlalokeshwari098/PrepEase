@@ -3,9 +3,7 @@ package com.javaspring.server.controller;
 
 import com.javaspring.server.model.Question;
 import com.javaspring.server.model.Subject;
-import com.javaspring.server.model.User;
 import com.javaspring.server.repository.SubjectRepository;
-import com.javaspring.server.security.UserPrincipal;
 import com.javaspring.server.service.CloudinaryService;
 import com.javaspring.server.service.ExploreQuestionsService;
 import org.springframework.http.HttpStatus;
@@ -68,9 +66,9 @@ public class ExploreQuestionsController {
 
              Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-             UserPrincipal principal=(UserPrincipal)auth.getPrincipal();
-             User userEntity=principal.getUser();
-             question.setUser(userEntity);
+//             UserDetailsImpl principal=auth.getPrincipal();
+//             User userEntity=principal.getUser();
+//             question.setUser(userEntity);
              exploreQuestionsService.uploadQuestionPaper(question);
             return ResponseEntity.status(HttpStatus.CREATED).body("Uploaded successfully!");
         } catch (Exception e) {

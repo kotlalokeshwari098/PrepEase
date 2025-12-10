@@ -2,7 +2,6 @@ package com.javaspring.server.service;
 
 import com.javaspring.server.model.User;
 import com.javaspring.server.repository.UserRepository;
-import com.javaspring.server.security.UserPrincipal;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +28,6 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return new UserPrincipal(user);
+        return  UserDetailsImpl.build(user);
     }
 }
