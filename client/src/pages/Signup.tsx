@@ -36,7 +36,7 @@ const Signup = () => {
 
   const onSubmit:SubmitHandler<UserForm>=async(data)=>{
     try {
-      const result=await axiosInstance.post("/register",data);
+      const result=await axiosInstance.post("/api/auth/register",data);
       if(result.status==201){
         console.log("resgistered successfully")
         setTimeout(()=>{

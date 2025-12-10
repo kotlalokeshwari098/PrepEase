@@ -26,7 +26,7 @@ const Login = () => {
 
   const onSubmit:SubmitHandler<UserFields>=async(data)=>{
      try {
-        const response=await axiosInstance.post("/authenticate",data);
+        const response=await axiosInstance.post("/api/auth/authenticate",data);
         console.log(response)
         if(response.status===200){
           const token=response.data;
