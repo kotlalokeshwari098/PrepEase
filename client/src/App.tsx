@@ -19,16 +19,15 @@ import AppInit from "./pages/AppInit";
 const routes = createBrowserRouter(
   createRoutesFromElements(
       <Route>
+         <Route path="/" element={<Home />}/>
          <Route path='/signup' element={<Signup />}/>
          <Route path='/login' element={<Login />}/>
-
-        <Route path="/" element= {<AppLayout />}>
-          <Route index element={<Home />}/>
+        <Route element= {<AppLayout />}>         
           <Route element={<ProtectedRoute />}>
+            <Route path='/dashboard' element={<Dashboard />}/>
             <Route path='/profile' element={<Profile />}/>
             <Route path='/questions' element={<ExploreQuestions />}/>
             <Route path='/questions/:subject' element={<SubjectQuestions />}/>
-            <Route path='/dashboard' element={<Dashboard />}/>
           </Route>
       </Route>
     </Route>
