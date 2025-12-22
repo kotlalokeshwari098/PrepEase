@@ -36,7 +36,6 @@ public class ExploreQuestionsController {
     @GetMapping("/papers")
     public ResponseEntity<List<QuestionPapersResponse>> getQuestion(){
         List<QuestionPapersResponse> response=exploreQuestionsService.getAllQuestionsPapers();
-        System.out.println(response+"🎉🎉💔💔");
         return ResponseEntity.ok().body(response);
     }
 
