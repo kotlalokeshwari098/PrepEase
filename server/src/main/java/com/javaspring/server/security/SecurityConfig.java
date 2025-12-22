@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->  authorizeRequests
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/questions").authenticated()
+                        .requestMatchers("/api/questions/**").authenticated()
                         .anyRequest().authenticated()
                 );
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

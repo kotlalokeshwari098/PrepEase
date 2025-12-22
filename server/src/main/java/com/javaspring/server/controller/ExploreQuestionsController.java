@@ -1,6 +1,7 @@
 package com.javaspring.server.controller;
 
 
+import com.javaspring.server.dtos.questionpapersdtos.QuestionPapersResponse;
 import com.javaspring.server.model.Question;
 import com.javaspring.server.model.Subject;
 import com.javaspring.server.repository.SubjectRepository;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/questions")
 public class ExploreQuestionsController {
 
     private final CloudinaryService cloudinaryService;
@@ -31,9 +33,11 @@ public class ExploreQuestionsController {
         this.subjectRepository = subjectRepository;
     }
 
-    @GetMapping("/questions")
-    public String getQuestion(){
-        return "hello questions";
+    @GetMapping("/papers")
+    public ResponseEntity<List<QuestionPapersResponse>> getQuestion(){
+        List<QuestionPapersResponse> response=exploreQuestionsService.getAllQuestionsPapers();
+        System.out.println(response+"🎉🎉💔💔");
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/uploadQuestionPaper")
@@ -45,9 +49,6 @@ public class ExploreQuestionsController {
             @RequestParam("file") MultipartFile file) {
         System.out.println("uploadQuestionPaper"+file.getOriginalFilename());
         try {
-            // Save the file or process it
-//            System.out.println("File name: " + file.getOriginalFilename());
-//            System.out.println("Subject: " + subjectName);
              String fileUrl=cloudinaryService.uploadFile(file);
              subjectName=subjectName.trim();
              Subject subject=subjectRepository.findBySubjectName(subjectName);
@@ -65,14 +66,10 @@ public class ExploreQuestionsController {
              question.setUpdated_at(new Date());
 
              Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-//             UserDetailsImpl principal=auth.getPrincipal();
-//             User userEntity=principal.getUser();
-//             question.setUser(userEntity);
              exploreQuestionsService.uploadQuestionPaper(question);
             return ResponseEntity.status(HttpStatus.CREATED).body("Uploaded successfully!");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }

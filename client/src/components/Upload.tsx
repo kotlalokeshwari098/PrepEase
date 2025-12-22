@@ -3,6 +3,7 @@ import  {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import axiosInstance from "../api/axios";
 import { useState } from 'react';
+import { toast } from "sonner";
 
 
 const inputSchema=z.object({
@@ -10,7 +11,7 @@ const inputSchema=z.object({
     year:z.number().min(1900).max(new Date().getFullYear()),
     branch:z.string().min(2,"Branch must be at least 2 characters long"),
     university:z.string().min(2,"University must be at least 2 characters long"),
-    file:z.instanceof(File).refine((file)=>file.size<=5*1024*1024,"File size must be less than 5MB")
+    file:z.any()
 })
 
 //types of the form fields
@@ -23,11 +24,11 @@ interface UploadProps {
 
 const Upload = ({ onClose,type }: UploadProps) => {
   const [selectedFileName, setSelectedFileName] = useState<string>('');
+  const [file,setFile]=useState<File|null>(null);
     const {
         handleSubmit,
         register,
         formState:{errors,isSubmitting},
-        setValue,
         setError,
         reset
       }
@@ -35,35 +36,55 @@ const Upload = ({ onClose,type }: UploadProps) => {
           resolver:zodResolver(inputSchema)
         });
 
-  const onSubmit:SubmitHandler<InputForm>=async(data)=>{
-    const token = localStorage.getItem("token"); 
-    console.log(data);
-    const formData=new FormData();
-    formData.append("subject",data.subjectName);
-    formData.append("year",data.year.toString());
-    formData.append("branch",data.branch);
-    formData.append("university",data.university);
-    formData.append("file",data.file)
-    try {
-      const result=await axiosInstance.post("/api/uploadQuestionPaper",formData,{
-         headers:{
-           Authorization:`Bearer ${token}`
-      }});
-      if(result.status==201){
-        console.log("Submitted successfully")
-        setTimeout(()=>{
-          alert("Submitted successfully!!");
-          reset();
-        },1000)
-      }
-    } catch (error) {
-      console.log(error);
-      setError("root",{
-        message:"Error uploading the file. Please try again."
-      })
-    }
+  const onSubmit: SubmitHandler<InputForm> = async (data) => {
+  if (!file) {
+    setError("file", { message: "File is required" });
+    return;
   }
 
+  const formData = new FormData();
+  formData.append("subject", data.subjectName);
+  formData.append("year", data.year.toString());
+  formData.append("branch", data.branch);
+  formData.append("university", data.university);
+  formData.append("file", file); 
+
+  try {
+    const result = await axiosInstance.post(
+      "/api/questions/uploadQuestionPaper",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+
+    if (result.status === 201) {
+       toast.success("Submitted successfully!")
+      reset();
+      setSelectedFileName("");
+      setFile(null);
+      onClose();
+    }
+  } catch (error) {
+    setError("root", {
+      message: "Error uploading the file. Please try again."
+    });
+    toast.error("Error uploading the file. Please try again.");
+  }
+};
+
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.files)
+    const file = event.target.files?.[0];
+    console.log(file)
+    if (file) {
+      setSelectedFileName(file.name);
+      setFile(file);
+    }
+  };
 
   return (
     <div className="fixed inset-0 h-full w-full z-50">
@@ -81,7 +102,7 @@ const Upload = ({ onClose,type }: UploadProps) => {
             </button>
           </div>
           
-          <form onSubmit={handleSubmit(onSubmit) } encType="multipart/form-data" className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -171,15 +192,8 @@ const Upload = ({ onClose,type }: UploadProps) => {
                           <span>Upload a file</span>
                           <input
                             type="file"
-                             {...register("file", {
-                                onChange: (e) => {
-                                 const file = e.target.files?.[0];
-                                 if (file) {
-      setSelectedFileName(file.name);
-      setValue("file", file); 
-    }
-    }})}
-                           
+                            {...register("file")}
+                            onChange={handleFileChange}
                             className="sr-only"
                             accept=".pdf"
                           />
@@ -207,9 +221,9 @@ const Upload = ({ onClose,type }: UploadProps) => {
                   )}
                 </div>
               </div>
-              {errors.file && (
-                <p className="mt-1 text-sm text-red-600">{errors.file.message}</p>
-              )}
+              {/* {errors.file && (
+                <p className="mt-1 text-sm text-red-600">{errors?.file?.message}</p>
+              )} */}
             </div>
 
             {errors.root && (

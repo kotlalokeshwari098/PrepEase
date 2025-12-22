@@ -3,9 +3,7 @@ import {z} from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import  axiosInstance  from '../api/axios.ts'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
-import {showToast} from '../features/ui/uiSlice.ts'
-import { userProfile } from '../features/auth/authSlice.ts'
+import { toast } from 'sonner'
 
 
 const userFieldsSchema=z.object({
@@ -21,38 +19,33 @@ const Login = () => {
     resolver:zodResolver(userFieldsSchema)
   })
   const navigate=useNavigate();
-  const dispatch=useDispatch();
 
 
   const onSubmit:SubmitHandler<UserFields>=async(data)=>{
      try {
         const response=await axiosInstance.post("/api/auth/authenticate",data);
-        console.log(response)
-        if(response.status===200){
-          const token=response.data;
+        console.log(response);
 
-          localStorage.setItem('token',response?.data)
+          localStorage.setItem('token',response?.data.token);
 
-          dispatch(showToast({ type: 'success', message: 'Login successfully!' }));
+          toast.success("Login successful!");
 
-          const response1=await axiosInstance.get("/user/profile",{
-           headers:{
-            Authorization:`Bearer ${token}`
-           }
-          });
-
-          dispatch(userProfile(response1.data))
+          // const response1=await axiosInstance.get("/user/profile",{
+          //  headers:{
+          //   Authorization:`Bearer ${token}`
+          //  }
+          // });
           
-          localStorage.setItem("userInfo", JSON.stringify(response1.data));
+          // localStorage.setItem("userInfo", JSON.stringify(response1.data));
          
           setTimeout(()=>{
             reset();
             navigate("/dashboard");
           },1000)
-        }
+        
      } catch (error) {
         console.log(error);
-        dispatch(showToast({ type: 'error', message: 'Login failed. Please check your credentials.' }));
+        toast.error("Login failed. Please check your credentials.");
      }
   }
 

@@ -3,8 +3,6 @@ import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 import  axiosInstance  from '../api/axios.ts'
-import { useDispatch } from "react-redux";
-import {showToast} from '../features/ui/uiSlice.ts'
 
 //ZOD schema validations for the form fields
 const userFormSchema=z.object({
@@ -31,7 +29,6 @@ const Signup = () => {
       },
       resolver:zodResolver(userFormSchema)
     });
-    const dispatch=useDispatch();
 
 
   const onSubmit:SubmitHandler<UserForm>=async(data)=>{
@@ -40,7 +37,7 @@ const Signup = () => {
       if(result.status==201){
         console.log("resgistered successfully")
         setTimeout(()=>{
-          dispatch(showToast({ type: 'success', message: 'Registered successfully!' }));
+          // dispatch(showToast({ type: 'success', message: 'Registered successfully!' }));
           reset();
         },1000)
       }

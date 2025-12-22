@@ -11,10 +11,8 @@ import Login from "./pages/Login";
 import ExploreQuestions from "./pages/ExploreQuestions";
 import SubjectQuestions from "./pages/SubjectQuestions";
 import Dashboard from "./pages/Dashboard";
-import Toast from "./components/Toast";
-import Profile from "./pages/Profile";
+// import Profile from "./pages/Profile";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import AppInit from "./pages/AppInit";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +23,7 @@ const routes = createBrowserRouter(
         <Route element= {<AppLayout />}>         
           <Route element={<ProtectedRoute />}>
             <Route path='/dashboard' element={<Dashboard />}/>
-            <Route path='/profile' element={<Profile />}/>
+            {/* <Route path='/profile' element={<Profile />}/> */}
             <Route path='/questions' element={<ExploreQuestions />}/>
             <Route path='/questions/:subject' element={<SubjectQuestions />}/>
           </Route>
@@ -37,9 +35,7 @@ const routes = createBrowserRouter(
 function App() {
   return (
     <div>
-      <AppInit/>
       <RouterProvider router={routes} />
-      <Toast/>
     </div>
   );
 }
